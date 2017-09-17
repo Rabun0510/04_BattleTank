@@ -60,7 +60,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		false,
 		0,
 		0,
-		ESuggestProjVelocityTraceOption::TraceFullPath
+		ESuggestProjVelocityTraceOption::DoNotTrace
 	))
 	{
 		//Get the aim direction from the OutLaunchVelocity vector
@@ -71,7 +71,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 	else
 	{
-
+		UE_LOG(LogTemp, Warning, TEXT("No aim solution found"));
 	}
 }
 
@@ -85,7 +85,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
+	Barrel->Elevate(DeltaRotator.Pitch);
 
 }
 
