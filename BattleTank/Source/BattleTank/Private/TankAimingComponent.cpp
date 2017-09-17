@@ -57,7 +57,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
-		false
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::TraceFullPath
 	))
 	{
 		//Get the aim direction from the OutLaunchVelocity vector
