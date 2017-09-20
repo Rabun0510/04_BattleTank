@@ -8,6 +8,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel; //Forward declare
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -24,6 +25,7 @@ protected:
 
 	//Tank aiming component pointer
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	
 
 public:	
 	// Called every frame
@@ -45,5 +47,16 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+private:
+
+	UTankBarrel* Barrel = nullptr;
+
+	float ReloadTimeInSeconds = 3;
+
+	double LastFireTime = 0;
 	
 };
