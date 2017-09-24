@@ -26,9 +26,6 @@ protected:
 
 	//Tank aiming component pointer
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:	
 	// Called every frame

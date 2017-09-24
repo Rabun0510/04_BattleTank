@@ -5,14 +5,14 @@
 #include "Engine/StaticMeshSocket.h"
 #include "Public/Projectile.h"
 #include "Engine/World.h"
+#include "Public/TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("TankAimingComponent"));
-	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("TankMovementComponent"));
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("TankAimingComponent"));	
 }
 
 // Called when the game starts or when spawned
