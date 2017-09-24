@@ -8,6 +8,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel; //Forward declare
+class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -26,6 +27,8 @@ protected:
 	//Tank aiming component pointer
 	UTankAimingComponent* TankAimingComponent = nullptr;
 	
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:	
 	// Called every frame

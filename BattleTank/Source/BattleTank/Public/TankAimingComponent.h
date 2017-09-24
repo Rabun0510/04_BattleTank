@@ -29,6 +29,7 @@ public:
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 	void SetBarrel(UTankBarrel* BarrelToSet);
+	
 	void SetTurret(UTankTurret* TurretToSet);
 
 private:
