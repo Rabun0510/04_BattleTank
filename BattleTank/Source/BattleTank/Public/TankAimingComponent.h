@@ -6,6 +6,15 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+//Enum for aiming state
+UENUM()
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
 class UTankBarrel; //Forward declaration for UTankBarrel
 class UTankTurret; //Forward declaration for UTankTurret
 
@@ -22,6 +31,9 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -35,6 +47,9 @@ public:
 private:
 	UTankBarrel* Barrel = nullptr; //Pointer to our barrel object
 	UTankTurret* Turret = nullptr;
+
+	//Firing status variable
+	
 
 	void MoveBarrelTowards(FVector AimDirection);
 
