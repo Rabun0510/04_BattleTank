@@ -25,6 +25,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	//Tank aiming component pointer
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	

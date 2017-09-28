@@ -15,10 +15,14 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	ATank* GetControlledTank() const;
+	
 
 	//Get the tank to aim towards where the crosshair is pointing
 	void AimTowardsCrosshair();
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
 	
 private:
 	UPROPERTY(EditAnywhere)
