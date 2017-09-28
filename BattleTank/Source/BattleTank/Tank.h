@@ -24,9 +24,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	//Tank aiming component pointer
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
+	
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialise(UTankAimingComponent* TankAimingComponentRef, UTankBarrel* BarrelRef);
 
 public:	
 	// Called every frame
@@ -38,12 +39,6 @@ public:
 	virtual void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrel(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurret(UTankTurret* TurretToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
 	void Fire();
 
 	UPROPERTY(EditAnywhere, Category = Firing)
@@ -53,6 +48,8 @@ public:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 private:
+
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UTankBarrel* Barrel = nullptr;
 
