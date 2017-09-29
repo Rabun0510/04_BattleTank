@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h" //Must be the last include
 
+class UTankAimingComponent;
+
 /**
  * 
  */
@@ -15,7 +17,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	
+	void virtual BeginPlay() override;
 
 	//Get the tank to aim towards where the crosshair is pointing
 	void AimTowardsCrosshair();
@@ -23,6 +25,9 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 	
 private:
 	UPROPERTY(EditAnywhere)

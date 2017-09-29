@@ -48,7 +48,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Firing the tank!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Firing the tank!"));
 
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 	
