@@ -21,12 +21,6 @@ void ATank::BeginPlay()
 	
 }
 
-void ATank::Initialise(UTankAimingComponent * TankAimingComponentRef, UTankBarrel * BarrelRef)
-{
-	TankAimingComponent = TankAimingComponentRef;
-	Barrel = BarrelRef;
-}
-
 // Called every frame
 void ATank::Tick(float DeltaTime)
 {
@@ -39,28 +33,6 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
-
-void ATank::Fire()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Firing the tank!"));
-
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	
-	if (Barrel && isReloaded)
-	{
-		//Spawn a projectile at socket location of barrel
-
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile")));
-
-		Projectile->LaunchProjectile(LaunchSpeed);
-
-		LastFireTime = FPlatformTime::Seconds();
-	}
-
-	
 }
 
 

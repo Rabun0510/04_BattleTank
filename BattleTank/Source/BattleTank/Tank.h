@@ -24,22 +24,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Initialise(UTankAimingComponent* TankAimingComponentRef, UTankBarrel* BarrelRef);
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void Fire();
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
@@ -48,10 +38,6 @@ public:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 private:
-
-	UTankAimingComponent* TankAimingComponent = nullptr;
-
-	UTankBarrel* Barrel = nullptr;
 
 	float ReloadTimeInSeconds = 3;
 
