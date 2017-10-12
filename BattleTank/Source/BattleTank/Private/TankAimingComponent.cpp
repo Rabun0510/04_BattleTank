@@ -21,14 +21,13 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	LastFireTime = FPlatformTime::Seconds();
+
 }
 
 
@@ -37,7 +36,18 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if (Barrel->GetForwardVector().Equals(AimDirection, 0.01))
+	{
+		FiringStatus = EFiringStatus::Locked;
+	}
+	else
+	{
+		FiringStatus = EFiringStatus::Aiming;
+	}
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
@@ -73,7 +83,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	))
 	{
 		//Get the aim direction from the OutLaunchVelocity vector
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("Aiming @ %s"), *AimDirection.ToString());
 
 		MoveBarrelTowards(AimDirection);
@@ -87,9 +97,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (Barrel && isReloaded)
+	if (FiringStatus != EFiringStatus::Reloading)
 	{
 		//Spawn a projectile at socket location of barrel
 

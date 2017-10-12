@@ -33,7 +33,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringStatus = EFiringStatus::Locked;
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
@@ -58,9 +58,10 @@ private:
 	UTankBarrel* Barrel = nullptr; //Pointer to our barrel object
 	UTankTurret* Turret = nullptr;
 
+	FVector AimDirection;
+
 	//Firing status variable
 	
-
 	void MoveBarrelTowards(FVector AimDirection);
 
 	void MoveTurretTowards(FVector AimDirection);
