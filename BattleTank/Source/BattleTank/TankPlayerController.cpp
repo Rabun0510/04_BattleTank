@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Engine/World.h"
 
 void ATankPlayerController::BeginPlay()
@@ -49,6 +50,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	//De-project to find the unit vector we are pointing at
 	if (GetLookDirection(ScreenLocation, LookDirection)) 
 	{
+
+		//Draw a debug line for aiming
+		
+
 		if (GetLookVectorHitLocation(LookDirection, OutHitLocation))
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("Pointing at location: %s"), *OutHitLocation.ToString());
@@ -79,9 +84,13 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	FHitResult HitResult;
 	FVector StartLocation = PlayerCameraManager->GetCameraLocation();
 	FVector LineTraceEnd = StartLocation + LineTraceRange * LookDirection;
+
+	//UKismetSystemLibrary::DrawDebugLine(GetWorld(), StartLocation, LineTraceEnd, FLinearColor::Red, 1.0, 3.0);
+
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, LineTraceEnd, ECC_Visibility))
 	{
 		HitLocation = HitResult.Location;
+		//UKismetSystemLibrary::DrawDebugCircle(GetWorld(), HitLocation, 10, 12, FLinearColor::Red, 1, 10);
 		return true;
 	}
 	HitLocation = FVector(0.0);

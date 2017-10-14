@@ -32,10 +32,10 @@ private:
 	float CrossHairXLocation = 0.5;
 
 	UPROPERTY(EditAnywhere)
-	float CrossHairYLocation = 0.33333;
+	float CrossHairYLocation = 0.3;
 
 	UPROPERTY(EditAnywhere)
-	float LineTraceRange = 1000000;
+	float LineTraceRange = 10000000;
 
 	void Tick(float DeltaSeconds) override;
 	bool GetSightRayHitLocation(FVector & HitLocation) const;
