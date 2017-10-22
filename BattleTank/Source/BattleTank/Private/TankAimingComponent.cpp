@@ -35,18 +35,20 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (FiringStatus != EFiringStatus::Empty) 
 	{
-		FiringStatus = EFiringStatus::Reloading;
-	}
-	else if (Barrel->GetForwardVector().Equals(AimDirection, 0.01))
-	{
-		FiringStatus = EFiringStatus::Locked;
-	}
-	else
-	{
-		FiringStatus = EFiringStatus::Aiming;
+		if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+		{
+			FiringStatus = EFiringStatus::Reloading;
+		}
+		else if (Barrel->GetForwardVector().Equals(AimDirection, 0.01))
+		{
+			FiringStatus = EFiringStatus::Locked;
+		}
+		else
+		{
+			FiringStatus = EFiringStatus::Aiming;
+		}
 	}
 }
 
@@ -97,7 +99,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
-	if (FiringStatus != EFiringStatus::Reloading)
+	if (!((FiringStatus == EFiringStatus::Reloading) || (FiringStatus == EFiringStatus::Empty)))
 	{
 		//Spawn a projectile at socket location of barrel
 
@@ -107,8 +109,19 @@ void UTankAimingComponent::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 
+		AmmoCount--;
+		if (AmmoCount == 0)
+		{
+			FiringStatus = EFiringStatus::Empty;
+		}
+
 		LastFireTime = FPlatformTime::Seconds();
 	}
+}
+
+EFiringStatus UTankAimingComponent::GetFiringState() const
+{
+	return FiringStatus;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)

@@ -12,7 +12,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	Empty
 };
 
 class UTankBarrel; //Forward declaration for UTankBarrel
@@ -53,6 +54,11 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	EFiringStatus GetFiringState() const;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Ammo")
+	int AmmoCount = 3;
 
 private:
 	UTankBarrel* Barrel = nullptr; //Pointer to our barrel object
