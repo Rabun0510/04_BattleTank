@@ -40,8 +40,19 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	URadialForceComponent* Explosion = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Fire")
+	float DestroyDelay = 1;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Fire")
+	float ProjectileDamage = 20;
+
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void OnHit(AActor * HitComponent, AActor * OtherActor, FVector NormalImpulse, const FHitResult & Hit);
+
+	void OnTimerExpire();
+
+
+
 
 public:	
 	// Called every frame
