@@ -2,22 +2,52 @@
 
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-
+#include "Components/StaticMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile movement component"));
 	ProjectileMovementComponent->bAutoActivate = false;
+
+	//Instantiate the static mesh component
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision mesh"));
+	SetRootComponent(CollisionMesh);
+	CollisionMesh->SetNotifyRigidBodyCollision(true);
+	CollisionMesh->SetVisibility(true);
+
+	//Instantiate the particle system component
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch blast"));
+	//LaunchBlast->SetupAttachment(CollisionMesh, FName("LaunchBlast"));
+
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact blast"));
+	ImpactBlast->bAutoActivate = false;
+
+	LaunchBlast->AttachToComponent(CollisionMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->AttachToComponent(CollisionMesh, FAttachmentTransformRules::KeepRelativeTransform);
+
+	UE_LOG(LogTemp, Warning, TEXT("Particle spawn location %s"), *LaunchBlast->GetComponentLocation().ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Collision mesh spawn location %s"), *CollisionMesh->GetComponentLocation().ToString());
+
+	
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	OnActorHit.AddDynamic(this, &AProjectile::OnHit);
 	
+}
+
+void AProjectile::OnHit(AActor * HitComponent, AActor * OtherActor, FVector NormalImpulse, const FHitResult & Hit)
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
 }
 
 // Called every frame

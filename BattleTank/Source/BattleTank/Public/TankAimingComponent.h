@@ -57,7 +57,7 @@ public:
 
 	EFiringStatus GetFiringState() const;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Ammo")
+	UPROPERTY(EditAnywhere, Category = Firing)
 	int AmmoCount = 3;
 
 private:
@@ -72,7 +72,9 @@ private:
 
 	void MoveTurretTowards(FVector AimDirection);
 
+	UPROPERTY(EditAnywhere, Category = Firing)
 	float ReloadTimeInSeconds = 3;
+
 	double LastFireTime = 0;
 	
 };
