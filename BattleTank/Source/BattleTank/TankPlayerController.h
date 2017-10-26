@@ -22,12 +22,19 @@ public:
 	//Get the tank to aim towards where the crosshair is pointing
 	void AimTowardsCrosshair();
 
+	
+
 protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+
+	
 	
 private:
+
+	virtual void SetPawn(APawn* InPawn) override;
+
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5;
 
@@ -36,6 +43,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 10000000;
+
+	UFUNCTION()
+	void OnTankDeathDelegate();
 
 	void Tick(float DeltaSeconds) override;
 	bool GetSightRayHitLocation(FVector & HitLocation) const;

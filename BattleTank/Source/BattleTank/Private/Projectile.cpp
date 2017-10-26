@@ -36,8 +36,8 @@ AProjectile::AProjectile()
 	Explosion = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion"));
 	Explosion->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-	UE_LOG(LogTemp, Warning, TEXT("Particle spawn location %s"), *LaunchBlast->GetComponentLocation().ToString());
-	UE_LOG(LogTemp, Warning, TEXT("Collision mesh spawn location %s"), *CollisionMesh->GetComponentLocation().ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Particle spawn location %s"), *LaunchBlast->GetComponentLocation().ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Collision mesh spawn location %s"), *CollisionMesh->GetComponentLocation().ToString());
 
 	
 }

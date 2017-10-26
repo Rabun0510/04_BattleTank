@@ -2,6 +2,7 @@
 #include "../Public/TankAIController.h"
 #include "../Public/TankAimingComponent.h"
 #include "Engine/World.h"
+#include "Tank.h"
 
 
 void ATankAIController::Tick(float DeltaTime)
@@ -26,4 +27,17 @@ void ATankAIController::Tick(float DeltaTime)
 		
 }
 
+void ATankAIController::SetPawn(APawn * Pawn)
+{
+	Super::SetPawn(Pawn);
+	if (Pawn)
+	{
+		auto PossessedTank = Cast<ATank>(Pawn);
+		if (!ensure(PossessedTank))
+		{
+			return;
+		}
 
+		//Subscribe to OnDeath of ATank
+	}
+}

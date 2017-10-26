@@ -24,4 +24,6 @@ protected:
 private:
 
 	UTankAimingComponent* AimingComponent = nullptr;
+
+	virtual void SetPawn(APawn* Pawn) override;
 };

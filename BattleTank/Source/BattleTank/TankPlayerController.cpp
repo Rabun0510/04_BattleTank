@@ -3,6 +3,7 @@
 #include "TankPlayerController.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Engine/World.h"
+#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -37,6 +38,30 @@ void ATankPlayerController::AimTowardsCrosshair()
 	{
 		AimingComponent->AimAt(HitLocation);
 	}
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (!InPawn)
+	{
+		return;
+	}
+
+	auto PossessedTank = Cast<ATank>(InPawn);
+	if (!ensure(PossessedTank))
+	{
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeathDelegate);
+		UE_LOG(LogTemp, Warning, TEXT("%s has registered for OnDeath broadcast"), *GetName());
+	}
+
+}
+
+void ATankPlayerController::OnTankDeathDelegate()
+{
+	GetPawn()->Destroy();
+	//UE_LOG(LogTemp, Warning, TEXT("%s has caught OnDeath broadcast"), *GetName());
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const

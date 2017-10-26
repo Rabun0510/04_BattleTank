@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "public/TankAimingComponent.h"
+#include "DelegateCombinations.h"
 #include "Tank.generated.h"
+
 
 class UTankBarrel; //Forward declare
 class UTankMovementComponent;
 class AProjectile;
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -39,6 +41,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
+	//Return health between 0 and 1
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
+
+	FTankDelegate OnDeath;
+
 private:
 
 	float ReloadTimeInSeconds = 3;
@@ -50,5 +58,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 	int32 CurrentHealth = StartupHealth;
+
+	
 	
 };
