@@ -50,18 +50,20 @@ void ATankPlayerController::SetPawn(APawn * InPawn)
 	}
 
 	auto PossessedTank = Cast<ATank>(InPawn);
-	if (!ensure(PossessedTank))
+	
+	if (PossessedTank)
 	{
 		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeathDelegate);
-		UE_LOG(LogTemp, Warning, TEXT("%s has registered for OnDeath broadcast"), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s (Player) has registered for OnDeath broadcast"), *InPawn->GetName());
 	}
 
 }
 
 void ATankPlayerController::OnTankDeathDelegate()
 {
-	GetPawn()->Destroy();
-	//UE_LOG(LogTemp, Warning, TEXT("%s has caught OnDeath broadcast"), *GetName());
+	//GetPawn()->Destroy();
+	StartSpectatingOnly();
+	UE_LOG(LogTemp, Warning, TEXT("%s has caught OnDeath broadcast"), *GetName());
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const

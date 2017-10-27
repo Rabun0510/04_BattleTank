@@ -39,5 +39,13 @@ void ATankAIController::SetPawn(APawn * Pawn)
 		}
 
 		//Subscribe to OnDeath of ATank
+		UE_LOG(LogTemp, Warning, TEXT("%s (AI) subscribing to OnDeath broadcast"), *Pawn->GetName());
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeathDelegate);
 	}
+}
+
+void ATankAIController::OnTankDeathDelegate()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s received OnDeath broadcast!"), *GetPawn()->GetName());
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
